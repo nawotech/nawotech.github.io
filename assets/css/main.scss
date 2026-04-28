@@ -1080,6 +1080,19 @@ hr {
 // Responsive
 // =====================================================================
 @media (max-width: 720px) {
+  .portfolio-photos {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-photo {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .lightbox-img {
+    max-width: 92vw;
+    max-height: 72vh;
+  }
 
   .timeline-row,
   .posts a,
