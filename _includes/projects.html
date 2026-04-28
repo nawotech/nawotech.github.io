@@ -1,0 +1,76 @@
+{%- assign projects = site.projects | sort: "order" -%}
+
+<section id="work" class="section section-portfolio">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">portfolio</span>
+    </header>
+
+    <div class="portfolio">
+      {% for project in projects %}
+      <article class="portfolio-item">
+        <h3 class="portfolio-title">{{ project.title }}</h3>
+
+        <div class="portfolio-photos" role="group" aria-label="{{ project.title }} photos">
+          {% assign has_photo = false %}
+          {% for photo in project.photos %}
+            {% assign t = photo.thumb | default: photo.full | strip %}
+            {% assign f = photo.full | default: photo.thumb | strip %}
+            {% unless t == '' or t contains '#' %}
+              {% assign has_photo = true %}
+              <button type="button" class="portfolio-photo" data-full="{{ f | relative_url }}" data-alt="{{ photo.alt | default: project.title | escape }}" aria-label="Open photo from {{ project.title }}">
+                <img src="{{ t | relative_url }}" alt="{{ photo.alt | default: project.title }}" loading="lazy">
+              </button>
+            {% endunless %}
+          {% endfor %}
+          {% assign hi = project.hero_image %}
+          {% if hi and has_photo == false %}
+            {% assign hi_s = hi | strip %}
+            {% unless hi_s == '' or hi_s contains '#' %}
+              {% assign has_photo = true %}
+              <button type="button" class="portfolio-photo" data-full="{{ hi_s | relative_url }}" data-alt="{{ project.title | escape }}" aria-label="Open photo from {{ project.title }}">
+                <img src="{{ hi_s | relative_url }}" alt="{{ project.title }}" loading="lazy">
+              </button>
+            {% endunless %}
+          {% endif %}
+          {% if has_photo == false %}
+            {% for img in project.gallery %}
+              {% assign g = img | strip %}
+              {% unless g == '' or g contains '#' %}
+                {% assign has_photo = true %}
+                <button type="button" class="portfolio-photo" data-full="{{ g | relative_url }}" data-alt="{{ project.title | escape }}" aria-label="Open photo from {{ project.title }}">
+                  <img src="{{ g | relative_url }}" alt="" loading="lazy">
+                </button>
+              {% endunless %}
+            {% endfor %}
+          {% endif %}
+          {% unless has_photo %}
+          <div class="portfolio-photo-placeholder"><span>{{ project.title }}</span></div>
+          {% endunless %}
+        </div>
+
+        {% if project.summary %}
+        <p class="portfolio-summary">{{ project.summary }}</p>
+        {% endif %}
+
+        {% assign web = project.links.website %}
+        {% assign gh = project.links.github %}
+        {% assign web_s = '' %}
+        {% assign gh_s = '' %}
+        {% if web %}{% assign web_s = web | strip %}{% endif %}
+        {% if gh %}{% assign gh_s = gh | strip %}{% endif %}
+        {% if web_s != '' or gh_s != '' %}
+        <p class="portfolio-actions">
+          {% unless web_s == '' or web_s contains '#' %}
+          <a class="portfolio-site" href="{{ web_s }}" target="_blank" rel="noopener">website →</a>
+          {% endunless %}
+          {% unless gh_s == '' or gh_s contains '#' %}
+          <a class="portfolio-site" href="{{ gh_s }}" target="_blank" rel="noopener">github →</a>
+          {% endunless %}
+        </p>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

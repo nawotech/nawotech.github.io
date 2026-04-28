@@ -1,0 +1,22 @@
+<section id="writing" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">notebook</span>
+    </header>
+
+    {% if site.posts.size > 0 %}
+    <ul class="posts">
+      {% for post in site.posts limit: 8 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">
+          <span class="post-link-date">{{ post.date | date: "%Y &middot; %b %-d" }}</span>
+          <span class="post-link-title">{{ post.title }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No posts yet.</p>
+    {% endif %}
+  </div>
+</section>

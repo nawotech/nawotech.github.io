@@ -1,0 +1,54 @@
+title: "Nawotech — Electronics Design Consulting"
+tagline: "Turning startup ideas into shipping hardware."
+description: >-
+  Nawotech is the independent electronics design consultancy of Cameron Nawosad —
+  10+ years of PCBA design, hardware architecture, and rapid prototyping.
+  Boards shipping in Tesla vehicles, advanced robotics, e-bikes, and consumer products.
+author: Cameron
+location: "Victoria, BC, Canada"
+url: "https://nawotech.github.io"
+baseurl: ""
+
+# Social / contact
+linkedin: "https://www.linkedin.com/in/cameron-nawosad"
+github: "https://github.com/nawotech"
+
+# Paste your Formspree endpoint here (https://formspree.io/) to enable the contact form.
+# Until then, the form falls back to a mailto: link.
+formspree_endpoint: "https://formspree.io/f/xlgaqjkb"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /blog/:year/:month/:day/:title/
+timezone: America/Vancouver
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: project
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - node_modules
+  - README.md
+  - .sass-cache

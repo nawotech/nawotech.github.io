@@ -1,0 +1,61 @@
+---
+layout: default
+---
+<article class="project">
+  <div class="container">
+    <header class="project-header">
+      <a class="back-link" href="{{ '/#work' | relative_url }}">&larr; back</a>
+
+      <h1 class="project-title">{{ page.title }}</h1>
+      {% if page.summary %}<p class="project-summary">{{ page.summary }}</p>{% endif %}
+
+      <div class="project-meta">
+        {% if page.year %}<span><span class="meta-label">year</span>{{ page.year }}</span>{% endif %}
+        {% if page.year and page.status %}<span class="sep">/</span>{% endif %}
+        {% if page.status %}<span><span class="meta-label">status</span>{{ page.status | replace: '-', ' ' }}</span>{% endif %}
+        {% if page.links.website and page.links.website != "" %}<span class="sep">/</span><a href="{{ page.links.website }}" target="_blank" rel="noopener">website &nearr;</a>{% endif %}
+        {% if page.links.github and page.links.github != "" %}<span class="sep">/</span><a href="{{ page.links.github }}" target="_blank" rel="noopener">github &nearr;</a>{% endif %}
+      </div>
+
+      {% if page.tech %}
+      <ul class="project-tech">
+        {% for t in page.tech %}<li>{{ t }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </header>
+  </div>
+
+  {% if page.hero_image and page.hero_image != "" %}
+  <figure class="project-hero">
+    <img src="{{ page.hero_image | relative_url }}" alt="{{ page.title }}" loading="lazy">
+  </figure>
+  {% else %}
+  <div class="project-hero placeholder" aria-hidden="true">
+    <span class="placeholder-label">{{ page.title }}</span>
+  </div>
+  {% endif %}
+
+  <div class="container project-body">
+    <div class="prose">
+      {{ content }}
+    </div>
+
+    {% if page.gallery and page.gallery.size > 0 %}
+    <section class="project-gallery">
+      <p class="gallery-eyebrow">// gallery</p>
+      <div class="gallery-grid">
+        {% for img in page.gallery %}
+        <figure class="gallery-item">
+          <img src="{{ img | relative_url }}" alt="{{ page.title }} {{ forloop.index }}" loading="lazy">
+        </figure>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <nav class="project-foot">
+      <a class="back-link" href="{{ '/#work' | relative_url }}">&larr; all work</a>
+      <a class="back-link" href="{{ '/#contact' | relative_url }}">start a project &rarr;</a>
+    </nav>
+  </div>
+</article>

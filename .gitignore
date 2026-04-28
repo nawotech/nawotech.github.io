@@ -1,0 +1,13 @@
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+vendor/
+.bundle/
+Gemfile.lock
+
+.DS_Store
+*.log
+
+# Local Python tooling env (image optimization script deps)
+.venv/

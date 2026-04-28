@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+{%- include head.html -%}
+
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="logo-banner" aria-label="Site banner">
+    <div class="container">
+      <a class="corner-brand" href="{{ '/' | relative_url }}" aria-label="Nawotech home">
+        <span class="corner-square" aria-hidden="true"></span>
+        <span class="corner-text">nawotech</span>
+      </a>
+    </div>
+  </header>
+  <main id="content">
+    {{ content }}
+  </main>
+  {%- include footer.html -%}
+  <div id="photo-lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Enlarged photo">
+    <button type="button" class="lightbox-backdrop" aria-label="Close"></button>
+    <div class="lightbox-inner">
+      <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+      <button type="button" class="lightbox-prev" aria-label="Previous photo" hidden><span
+          aria-hidden="true">←</span></button>
+      <img class="lightbox-img" src="" alt="">
+      <button type="button" class="lightbox-next" aria-label="Next photo" hidden><span
+          aria-hidden="true">→</span></button>
+    </div>
+  </div>
+  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+</body>
+
+</html>

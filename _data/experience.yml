@@ -1,0 +1,55 @@
+# Professional experience timeline.
+# Order matters: most recent at the top.
+
+- role: Independent Hardware Consultant
+  location: Victoria, BC, Canada
+  start: March 2026
+  end: Present
+  current: true
+  highlights:
+    - Provide electronics consulting and PCBA design services to startups and established companies.
+    - Help startups turn ideas into high-quality quick-turn prototypes.
+    - Maintain a professional-grade in-house electronics laboratory.
+    - Collaborate on architecture and product design tradeoffs.
+
+- role: Staff Electrical Engineer
+  company: Mytra
+  location: Brisbane, CA
+  start: May 2023
+  end: March 2026
+  current: true
+  highlights:
+    - Founding Electrical Engineer — designed the complete electrical system architecture for the first two generations of warehouse robots.
+    - Engineered and delivered critical PCBAs including motor controllers, power distribution systems, LED arrays, and automated test rigs.
+    - Built a custom KiCAD library web application to streamline the internal hardware design process.
+
+- role: Senior Electronic Design Engineer
+  company: Bimotal
+  location: Berkeley, CA
+  start: March 2022
+  end: March 2023
+  highlights:
+    - Owned electronic design for electric bike powertrains.
+    - Architected and designed the e-bike display and battery management system (BMS).
+
+- role: Senior Electronic Design Engineer
+  company: Tesla
+  location: Palo Alto, CA
+  start: November 2018
+  end: March 2022
+  highlights:
+    - "Tesla Bot: led the electrical design for the early-stage development of the humanoid robot platform."
+    - "Vehicle Hardware: owned the complete design of Model 3 and Model Y body controller circuit boards from concept through high-volume mass production."
+    - "Infrastructure: developed the architecture and controller circuit boards for the Dojo supercomputer."
+    - "Validation: board bring-up, in-vehicle validation, and rigorous testing of motor drivers and power circuits."
+
+- role: Electronics Design Intern
+  company: Tesla
+  location: Palo Alto, CA
+  start: May 2016
+  end: July 2017
+  highlights:
+    - Developed circuit designs for Model 3 body controllers.
+    - Schematic and PCB layouts using Altium.
+    - Design and test of motor driver and other power circuits.
+    - System-level validation.

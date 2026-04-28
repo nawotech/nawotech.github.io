@@ -1,0 +1,42 @@
+<section id="contact" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">contact</span>
+      <p class="section-lede">
+        Whatever you are on working on, I'd love to discuss how I can help.
+      </p>
+    </header>
+
+    <form class="contact-form" {% if site.formspree_endpoint and site.formspree_endpoint !="" %}
+      action="{{ site.formspree_endpoint }}" method="POST" {% else %} action="#" method="POST" data-disabled="true" {%
+      endif %}>
+      <label>
+        <span>name</span>
+        <input type="text" name="name" required autocomplete="name">
+      </label>
+      <label>
+        <span>email</span>
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label>
+        <span>company / project (optional)</span>
+        <input type="text" name="company" autocomplete="organization">
+      </label>
+      <label>
+        <span>what can I help with?</span>
+        <textarea name="message" rows="6" required
+          placeholder="Tell me about your project, timeline, and what you'd like help with."></textarea>
+      </label>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" {% if site.formspree_endpoint=="" or site.formspree_endpoint==nil
+          %}disabled aria-disabled="true" {% endif %}>
+          Send message
+        </button>
+      </div>
+      {% if site.formspree_endpoint == "" or site.formspree_endpoint == nil %}
+      <p class="form-note">Contact form is being configured. Add your Formspree endpoint to <code>_config.yml</code> to
+        enable.</p>
+      {% endif %}
+    </form>
+  </div>
+</section>

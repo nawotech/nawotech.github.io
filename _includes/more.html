@@ -1,0 +1,15 @@
+<section id="more" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">connect</span>
+    </header>
+
+    <p class="more-links">
+      {% if site.resume_pdf %}<a href="{{ site.resume_pdf | relative_url }}">resume</a>{% endif %}
+      {% if site.github %}{% if site.resume_pdf %} &middot; {% endif %}<a href="{{ site.github }}" target="_blank"
+        rel="noopener">github</a>{% endif %}
+      {% if site.linkedin %}{% if site.resume_pdf or site.github %} &middot; {% endif %}<a href="{{ site.linkedin }}"
+        target="_blank" rel="noopener">linkedin</a>{% endif %}
+    </p>
+  </div>
+</section>

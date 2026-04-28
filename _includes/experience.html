@@ -1,0 +1,28 @@
+<section id="experience" class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">experience</span>
+    </header>
+
+    <ol class="timeline">
+      {% for job in site.data.experience %}
+      <li class="timeline-row">
+        <div class="timeline-when">
+          {{ job.start }} — {{ job.end }}
+        </div>
+        <div class="timeline-content">
+          <h3 class="timeline-role">
+            {{ job.role }}{% if job.company and job.company != "" %}<span class="at">@</span><span class="company">{{ job.company }}</span>{% endif %}
+          </h3>
+          <p class="timeline-where">{{ job.location }}</p>
+          {% if job.highlights %}
+          <ul class="timeline-highlights">
+            {% for h in job.highlights %}<li>{{ h }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
