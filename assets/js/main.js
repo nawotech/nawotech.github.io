@@ -29,6 +29,9 @@
   var urls = [];
   var alts = [];
   var idx = 0;
+  var touchStartX = null;
+  var touchStartY = null;
+  var SWIPE_THRESHOLD = 40;
 
   function syncNav() {
     var n = urls.length;
@@ -36,6 +39,18 @@
     btnNext.hidden = n <= 1;
     imgEl.src = urls[idx] || '';
     imgEl.alt = alts[idx] || '';
+  }
+
+  function showPrev() {
+    if (urls.length <= 1) return;
+    idx = (idx - 1 + urls.length) % urls.length;
+    syncNav();
+  }
+
+  function showNext() {
+    if (urls.length <= 1) return;
+    idx = (idx + 1) % urls.length;
+    syncNav();
   }
 
   function openFromButton(btn) {
@@ -96,28 +111,57 @@
       return;
     }
     if (e.key === 'ArrowLeft') {
-      if (urls.length <= 1) return;
-      idx = (idx - 1 + urls.length) % urls.length;
-      syncNav();
+      showPrev();
       e.preventDefault();
     }
     if (e.key === 'ArrowRight') {
-      if (urls.length <= 1) return;
-      idx = (idx + 1) % urls.length;
-      syncNav();
+      showNext();
       e.preventDefault();
     }
   });
 
   btnPrev.addEventListener('click', function () {
-    if (urls.length <= 1) return;
-    idx = (idx - 1 + urls.length) % urls.length;
-    syncNav();
+    showPrev();
   });
 
   btnNext.addEventListener('click', function () {
-    if (urls.length <= 1) return;
-    idx = (idx + 1) % urls.length;
-    syncNav();
+    showNext();
+  });
+
+  inner.addEventListener(
+    'touchstart',
+    function (e) {
+      if (lb.hidden || e.touches.length !== 1) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    },
+    { passive: true }
+  );
+
+  inner.addEventListener(
+    'touchend',
+    function (e) {
+      if (lb.hidden || touchStartX === null || touchStartY === null) return;
+      var touch = e.changedTouches[0];
+      var deltaX = touch.clientX - touchStartX;
+      var deltaY = touch.clientY - touchStartY;
+      touchStartX = null;
+      touchStartY = null;
+
+      // Only treat horizontal gestures as gallery swipes.
+      if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+      if (deltaX > 0) {
+        showPrev();
+      } else {
+        showNext();
+      }
+    },
+    { passive: true }
+  );
+
+  inner.addEventListener('touchcancel', function () {
+    touchStartX = null;
+    touchStartY = null;
   });
 })();

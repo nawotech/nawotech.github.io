@@ -998,7 +998,10 @@ hr {
   z-index: 200;
   display: grid;
   place-items: center;
-  padding: 1rem;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+    max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  overscroll-behavior: contain;
+  touch-action: manipulation;
 }
 
 .lightbox[hidden] {
@@ -1019,19 +1022,27 @@ hr {
 .lightbox-inner {
   position: relative;
   z-index: 2;
+  /* Fixed frame so prev/next columns do not shift when image aspect ratio changes */
+  width: min(94vw, 1100px);
   max-width: min(94vw, 1100px);
+  min-width: 0;
   max-height: min(88vh, 900px);
+  max-height: min(88dvh, 900px);
   padding-top: 2.25rem;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.5rem;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .lightbox-img {
   grid-column: 2;
-  max-width: min(82vw, 980px);
+  justify-self: center;
+  align-self: center;
+  max-width: 100%;
   max-height: min(82vh, 820px);
+  max-height: min(82dvh, 820px);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -1059,10 +1070,17 @@ hr {
   border: 1px solid $rule-strong;
   background: $bg;
   font-family: $font-mono;
-  font-size: 1rem;
-  padding: 0.35rem 0.55rem;
+  font-size: 1.35rem;
+  line-height: 1;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
   cursor: pointer;
   color: $ink;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 
   &:hover:not([hidden]) {
     border-color: $ink;
@@ -1090,8 +1108,15 @@ hr {
   }
 
   .lightbox-img {
-    max-width: 92vw;
-    max-height: 72vh;
+    max-height: min(72vh, 820px);
+    max-height: min(72dvh, 820px);
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 1.45rem;
   }
 
   .timeline-row,
