@@ -1107,16 +1107,48 @@ hr {
     max-width: 100%;
   }
 
+  /* Full-bleed image: nav overlays the photo instead of shrinking the grid */
+  .lightbox {
+    padding: max(0.35rem, env(safe-area-inset-top)) max(0.35rem, env(safe-area-inset-right))
+      max(0.35rem, env(safe-area-inset-bottom)) max(0.35rem, env(safe-area-inset-left));
+  }
+
+  .lightbox-inner {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding-top: 2.25rem;
+  }
+
   .lightbox-img {
-    max-height: min(72vh, 820px);
-    max-height: min(72dvh, 820px);
+    grid-column: auto;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100vh - 3.25rem);
+    max-height: calc(100dvh - 3.25rem);
   }
 
   .lightbox-prev,
   .lightbox-next {
-    width: 3.25rem;
-    height: 3.25rem;
-    font-size: 1.45rem;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 201;
+    width: 2.85rem;
+    height: 2.85rem;
+    font-size: 1.35rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+    /* Slightly translucent so image reads through at the edges */
+    background: rgba($bg, 0.92);
+  }
+
+  .lightbox-prev {
+    left: max(0.35rem, env(safe-area-inset-left));
+  }
+
+  .lightbox-next {
+    right: max(0.35rem, env(safe-area-inset-right));
   }
 
   .timeline-row,
