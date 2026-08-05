@@ -79,14 +79,41 @@ Create `_posts/YYYY-MM-DD-title.md`:
 title: Post title
 date: 2026-04-27
 excerpt: Short teaser shown on the blog index.
+label: build log      # optional — small pill above the title, e.g. "build log". Omit for a plain post.
+hero_image: /assets/img/posts/post-slug/hero.webp   # optional — full-width 16:9 photo under the title
 ---
 
 Markdown content...
 ```
 
+**Extra patterns available inside post (and project) body content**, for build-log-style
+write-ups — tables, code blocks, blockquotes, and images all just work as standard
+Markdown. Two extra snippets are available for content Markdown doesn't have a native
+syntax for:
+
+- **GitHub repo callout** — a bordered card linking to a repo:
+
+  ```liquid
+  {% include repo-card.html repo="nawotech/fluidclock" url="https://github.com/nawotech/fluidclock" desc="firmware, KiCad project, and enclosure files" %}
+  ```
+
+- **Build photo grid** — a 2-up grid of photos, e.g. under a "Build photos" heading:
+
+  ```liquid
+  {% include build-photos.html photos="/assets/img/posts/fluidclock/pcb.jpg, /assets/img/posts/fluidclock/enclosure.jpg" alts="Bare PCB, Assembled enclosure" %}
+  ```
+
+- **Figure caption** under an image (e.g. `fig. 1 — power & LED driver`):
+
+  ```html
+  <p class="fig-caption">fig. 1 — power &amp; LED driver</p>
+  ```
+
+  right after the image's Markdown line.
+
 ### Update services
 
-Edit `/_includes/services.html`.
+Services shown on the homepage are the tag list in `_includes/hero.html` (the `<ul class="hero-services">`). Edit the `<li>` entries there.
 
 ### Update professional experience
 
@@ -107,6 +134,30 @@ Drop your latest PDF at `assets/resume.pdf` (overwrites the placeholder).
 3. Paste it into `_config.yml` under `formspree_endpoint:`.
 
 Until you do, the contact section falls back to a `mailto:` link.
+
+---
+
+## Editing articles visually (CMS)
+
+There's a git-backed admin UI at `/admin/` ([Sveltia CMS](https://github.com/sveltia/sveltia-cms), a modern Decap CMS-compatible editor) for writing and editing posts and projects with form fields, a rich-text body editor, and drag-and-drop image upload — no Markdown/YAML by hand, no local setup. It commits straight to this repo.
+
+It needs a **one-time setup** before it can log in, because this is a plain GitHub Pages site with no server of its own to handle the OAuth handshake:
+
+1. **Create a GitHub OAuth App** at [github.com/settings/developers](https://github.com/settings/developers) → "New OAuth App":
+   - Application name: anything, e.g. "Nawotech CMS"
+   - Homepage URL: `https://nawotech.github.io`
+   - Authorization callback URL: you'll fill this in after step 2 (it's `<your-worker-url>/callback`)
+   - Save, then note the **Client ID** and generate + note a **Client Secret**.
+
+2. **Deploy the OAuth proxy worker.** [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) is a small, purpose-built Cloudflare Worker that does the OAuth token exchange for you — no code to write. Deploy it to a free Cloudflare account (its README has a one-click "Deploy to Cloudflare" button), then set `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` as Worker secrets using the values from step 1. Note the Worker's URL (`https://<something>.workers.dev`).
+
+3. Go back to your GitHub OAuth App from step 1 and set the callback URL to `https://<your-worker-url>/callback`.
+
+4. Edit `admin/config.yml` in this repo and replace the placeholder `base_url` with your Worker's URL. Commit + push.
+
+5. Visit `https://nawotech.github.io/admin/`, click "Login with GitHub," authorize, and you're in.
+
+This only needs to be done once. After that, `/admin/` is the easy visual way to write build logs and add portfolio projects — changes there create real commits to `main`, same as editing the files by hand.
 
 ---
 
@@ -135,11 +186,12 @@ _projects/            One Markdown file per project
 _posts/               One Markdown file per blog post
 _layouts/             Page templates (default, project, post)
 _includes/            Reusable section partials
+admin/                Visual editor (Sveltia CMS) — see "Editing articles visually" above
 assets/
   css/main.scss       Site styles
   img/                Images (project galleries, etc.)
   resume.pdf          Downloadable resume
-index.html            Single-page site: hero + services + work + experience + writing + contact
+index.html            Single-page site: hero (incl. services) + work + experience + writing + contact
 ```
 
 The site is single-page. Only individual project pages (`/projects/<slug>/`)

@@ -1,0 +1,54 @@
+backend:
+  name: github
+  repo: nawotech/nawotech.github.io
+  branch: main
+  # This site has no server of its own, so the "github" backend needs a small
+  # OAuth token-exchange proxy to authenticate. Deploy
+  # https://github.com/sveltia/sveltia-cms-auth as a free Cloudflare Worker
+  # (one-time setup — see README's "Editing articles visually" section),
+  # then replace this placeholder with that Worker's URL.
+  base_url: https://REPLACE-WITH-YOUR-OAUTH-WORKER.workers.dev
+
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
+
+collections:
+  - name: "posts"
+    label: "Notebook Posts"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Excerpt", name: "excerpt", widget: "text", required: false, hint: "Short teaser shown on the blog index and used as the meta description." }
+      - { label: "Badge label", name: "label", widget: "string", required: false, hint: "e.g. \"build log\" — shown as a small pill above the title. Leave blank for a plain post." }
+      - { label: "Hero image", name: "hero_image", widget: "image", required: false, hint: "Optional full-width photo under the title." }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "projects"
+    label: "Portfolio Projects"
+    folder: "_projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Order", name: "order", widget: "number", required: false, hint: "Lower numbers show first in the portfolio." }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Summary", name: "summary", widget: "text" }
+      - label: "Links"
+        name: "links"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Website URL", name: "website", widget: "string", required: false }
+          - { label: "GitHub URL", name: "github", widget: "string", required: false }
+      - label: "Photos"
+        name: "photos"
+        widget: "list"
+        required: false
+        hint: "First photo is the one shown on the portfolio card; all of them appear in the gallery overlay."
+        fields:
+          - { label: "Thumbnail", name: "thumb", widget: "image" }
+          - { label: "Full size", name: "full", widget: "image" }
+          - { label: "Alt text", name: "alt", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }

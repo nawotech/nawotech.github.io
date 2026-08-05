@@ -190,6 +190,7 @@ hr {
 
 .section {
   padding: clamp(4rem, 8vw, 7rem) 0;
+  border-top: 1px solid $rule;
   text-align: left;
 }
 
@@ -257,6 +258,17 @@ hr {
   &:hover {
     background: $ink;
     color: $bg;
+  }
+}
+
+.btn-secondary {
+  border-color: $rule;
+  color: $ink-soft;
+
+  &:hover {
+    background: $ink;
+    color: $bg;
+    border-color: $ink;
   }
 }
 
@@ -359,29 +371,18 @@ hr {
 }
 
 // =====================================================================
-// Services unit (single inviting block)
+// Hero services tags (merged into hero, no separate section)
 // =====================================================================
-.services-unit {
-  max-width: 60ch;
-}
-
-.services-intro,
-.services-note {
-  color: $ink-soft;
-  font-size: 1.04rem;
-  margin: 0;
-}
-
-.services-tags {
+.hero-services {
   list-style: none;
   padding: 0;
-  margin: 1.2rem 0;
+  margin: 0 0 2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem 0.65rem;
 }
 
-.services-tags li {
+.hero-services li {
   font-family: $font-mono;
   font-size: 0.84rem;
   color: $ink;
@@ -392,71 +393,31 @@ hr {
 // =====================================================================
 // Portfolio (home)
 // =====================================================================
-.portfolio {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(3rem, 6vw, 4.5rem);
-}
-
-.portfolio-item {
-  max-width: 100%;
-}
-
-.portfolio-title {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0 0 1rem;
-  color: $ink;
-}
-
-.portfolio-photos {
+.portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 0.35rem;
-  margin: 0 0 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
 }
 
-.portfolio-photo {
-  appearance: none;
-  border: 0;
-  border-radius: 14px;
-  padding: 0;
-  margin: 0;
-  cursor: zoom-in;
+.portfolio-card {
+  border: 1px solid $rule;
+}
+
+.portfolio-photo-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
   background: #f4f4f4;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  display: block;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.15s ease;
-    display: block;
-  }
-
-  &:hover img {
-    opacity: 0.92;
-  }
-
-  &:focus-visible {
-    outline: 2px solid $ink;
-    outline-offset: 2px;
-  }
 }
 
-/* Show only the first thumbnail on the page;
-   lightbox still uses all images in the DOM. */
-.portfolio-photos .portfolio-photo:not(:first-of-type) {
-  display: none;
+.portfolio-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .portfolio-photo-placeholder {
-  grid-column: 1 / -1;
-  min-height: 220px;
-  background: #f8f8f8;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -470,12 +431,74 @@ hr {
   }
 }
 
-.portfolio-summary {
-  margin: 0 0 0.75rem;
+.portfolio-gallery-btn {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(10, 10, 10, 0.1);
+  box-shadow: 0 1px 4px rgba(10, 10, 10, 0.15);
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    background: #fff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $ink;
+    outline-offset: 2px;
+  }
+}
+
+.pgb-icon {
+  font-size: 12px;
+  line-height: 1;
+  color: $ink;
+}
+
+.pgb-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: $ink;
+  border: 1px solid rgba(10, 10, 10, 0.15);
+  font-family: $font-mono;
+  font-size: 9px;
+  line-height: 14px;
+  text-align: center;
+  padding: 0 3px;
+}
+
+.portfolio-card-body {
+  padding: 1rem;
+}
+
+.portfolio-title {
   font-size: 1rem;
-  line-height: 1.55;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5rem;
+  color: $ink;
+}
+
+.portfolio-summary {
+  margin: 0 0 0.65rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
   color: $ink-soft;
-  max-width: 55ch;
 }
 
 .more-links {
@@ -517,9 +540,14 @@ hr {
 
 .timeline-row {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-  padding: 2rem 0;
+  grid-template-columns: 140px 1fr;
+  gap: 1rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: 0;
+  }
 }
 
 .timeline-when {
@@ -870,6 +898,99 @@ hr {
   hr {
     margin: 3rem 0;
   }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 0 0 1.6em;
+  }
+
+  th {
+    text-align: left;
+    font-family: $font-mono;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: $muted;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 0 0 0.5rem;
+    border-bottom: 1px solid $rule;
+  }
+
+  td {
+    padding: 0.65rem 0.8rem 0.65rem 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .fig-caption {
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    color: $muted;
+    margin: 0 0 2em;
+  }
+
+  img + .fig-caption {
+    margin-top: -1.4rem;
+  }
+
+  // Reusable content patterns dropped into post/project markdown via the
+  // repo-card and build-photos includes (see _includes/).
+  .repo-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid $rule;
+    padding: 0.9rem 1rem;
+    text-decoration: none;
+    color: $ink;
+    margin: 0 0 2em;
+
+    &:hover {
+      border-color: $ink;
+    }
+  }
+
+  .repo-card-mark {
+    width: 18px;
+    height: 18px;
+    background: $ink;
+    flex-shrink: 0;
+  }
+
+  .repo-card-name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .repo-card-desc {
+    display: block;
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    color: $muted;
+    margin-top: 0.15rem;
+  }
+
+  .build-photos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 0 0 2em;
+
+    img {
+      margin: 0;
+      border: 0;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 
 .project-gallery {
@@ -933,11 +1054,27 @@ hr {
   padding: 0;
 }
 
+.post-label {
+  display: inline-block;
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  background: $ink;
+  color: $bg;
+  padding: 0.35em 0.6em;
+  margin: 1.4rem 0 0;
+}
+
 .post-title {
   font-size: clamp(2rem, 4vw, 2.8rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   margin: 1.4rem 0 0.8rem;
+}
+
+.post-label + .post-title {
+  margin-top: 0.9rem;
 }
 
 .post-meta {
@@ -947,9 +1084,31 @@ hr {
   margin: 0;
 }
 
+.post-hero {
+  margin: 0 0 3rem;
+  max-width: $container;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+}
+
 .post-body {
   margin: 0;
   padding: 0;
+}
+
+.post-foot {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid $rule;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 // =====================================================================
@@ -958,6 +1117,7 @@ hr {
 .site-footer {
   padding: 2.5rem 0 3rem;
   margin-top: 0;
+  border-top: 1px solid $rule;
 }
 
 .footer-inner {
@@ -990,165 +1150,108 @@ hr {
 }
 
 // =====================================================================
-// Photo lightbox
+// Portfolio gallery overlay
 // =====================================================================
-.lightbox {
+.gallery-overlay {
   position: fixed;
   inset: 0;
   z-index: 200;
-  display: grid;
-  place-items: center;
-  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
-    max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
-  overscroll-behavior: contain;
-  touch-action: manipulation;
+  background: rgba(255, 255, 255, 0.97);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(3rem, env(safe-area-inset-top)) max(1.5rem, env(safe-area-inset-right))
+    max(3rem, env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left));
+  overflow-y: auto;
 }
 
-.lightbox[hidden] {
+.gallery-overlay[hidden] {
   display: none !important;
 }
 
-.lightbox-backdrop {
-  position: absolute;
+.gallery-overlay-backdrop {
+  position: fixed;
   inset: 0;
   z-index: 1;
   margin: 0;
   padding: 0;
   border: 0;
   cursor: zoom-out;
-  background: rgba(255, 255, 255, 0.96);
+  background: transparent;
 }
 
-.lightbox-inner {
+.gallery-overlay-inner {
   position: relative;
   z-index: 2;
-  /* Fixed frame so prev/next columns do not shift when image aspect ratio changes */
-  width: min(94vw, 1100px);
-  max-width: min(94vw, 1100px);
-  min-width: 0;
-  max-height: min(88vh, 900px);
-  max-height: min(88dvh, 900px);
-  padding-top: 2.25rem;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 0.5rem;
-  align-items: center;
-  box-sizing: border-box;
+  width: 100%;
+  max-width: 900px;
 }
 
-.lightbox-img {
-  grid-column: 2;
-  justify-self: center;
-  align-self: center;
-  max-width: 100%;
-  max-height: min(82vh, 820px);
-  max-height: min(82dvh, 820px);
-  width: auto;
-  height: auto;
-  object-fit: contain;
+.gallery-overlay-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.lightbox-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: 0;
-  background: transparent;
+.gallery-overlay-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.gallery-overlay-close {
+  flex-shrink: 0;
   font-family: $font-mono;
-  font-size: 1.75rem;
-  line-height: 1;
+  font-size: 0.82rem;
+  background: none;
+  border: 1px solid $ink;
+  padding: 0.5rem 0.9rem;
   cursor: pointer;
   color: $ink;
 
   &:hover {
-    opacity: 0.6;
-  }
-}
-
-.lightbox-prev,
-.lightbox-next {
-  border: 1px solid $rule-strong;
-  background: $bg;
-  font-family: $font-mono;
-  font-size: 1.35rem;
-  line-height: 1;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 999px;
-  display: inline-grid;
-  place-items: center;
-  padding: 0;
-  cursor: pointer;
-  color: $ink;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
-
-  &:hover:not([hidden]) {
-    border-color: $ink;
     background: $ink;
     color: $bg;
   }
 }
 
-.lightbox-prev[hidden],
-.lightbox-next[hidden] {
-  visibility: hidden;
+.gallery-overlay-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.gallery-overlay-item {
+  aspect-ratio: 4 / 3;
+  background: #f4f4f4;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 }
 
 // =====================================================================
 // Responsive
 // =====================================================================
 @media (max-width: 720px) {
-  .portfolio-photos {
+  .portfolio-grid {
     grid-template-columns: 1fr;
   }
 
-  .portfolio-photo {
-    width: 100%;
-    max-width: 100%;
+  .gallery-overlay {
+    padding: max(1.5rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+      max(1.5rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
   }
 
-  /* Full-bleed image: nav overlays the photo instead of shrinking the grid */
-  .lightbox {
-    padding: max(0.35rem, env(safe-area-inset-top)) max(0.35rem, env(safe-area-inset-right))
-      max(0.35rem, env(safe-area-inset-bottom)) max(0.35rem, env(safe-area-inset-left));
-  }
-
-  .lightbox-inner {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    padding-top: 2.25rem;
-  }
-
-  .lightbox-img {
-    grid-column: auto;
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    max-height: calc(100vh - 3.25rem);
-    max-height: calc(100dvh - 3.25rem);
-  }
-
-  .lightbox-prev,
-  .lightbox-next {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 201;
-    width: 2.85rem;
-    height: 2.85rem;
-    font-size: 1.35rem;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
-    /* Slightly translucent so image reads through at the edges */
-    background: rgba($bg, 0.92);
-  }
-
-  .lightbox-prev {
-    left: max(0.35rem, env(safe-area-inset-left));
-  }
-
-  .lightbox-next {
-    right: max(0.35rem, env(safe-area-inset-right));
+  .gallery-overlay-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .timeline-row,

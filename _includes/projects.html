@@ -6,69 +6,68 @@
       <span class="eyebrow">portfolio</span>
     </header>
 
-    <div class="portfolio">
+    <div class="portfolio-grid">
       {% for project in projects %}
-      <article class="portfolio-item">
-        <h3 class="portfolio-title">{{ project.title }}</h3>
+      {% assign photo_list = project.photos %}
+      {% assign primary_thumb = '' %}
+      {% assign primary_alt = project.title %}
+      {% assign gallery_json = '' %}
+      {% assign gallery_count = 0 %}
 
-        <div class="portfolio-photos" role="group" aria-label="{{ project.title }} photos">
-          {% assign has_photo = false %}
-          {% for photo in project.photos %}
-            {% assign t = photo.thumb | default: photo.full | strip %}
-            {% assign f = photo.full | default: photo.thumb | strip %}
-            {% unless t == '' or t contains '#' %}
-              {% assign has_photo = true %}
-              <button type="button" class="portfolio-photo" data-full="{{ f | relative_url }}" data-alt="{{ photo.alt | default: project.title | escape }}" aria-label="Open photo from {{ project.title }}">
-                <img src="{{ t | relative_url }}" alt="{{ photo.alt | default: project.title }}" loading="lazy">
-              </button>
-            {% endunless %}
-          {% endfor %}
-          {% assign hi = project.hero_image %}
-          {% if hi and has_photo == false %}
-            {% assign hi_s = hi | strip %}
-            {% unless hi_s == '' or hi_s contains '#' %}
-              {% assign has_photo = true %}
-              <button type="button" class="portfolio-photo" data-full="{{ hi_s | relative_url }}" data-alt="{{ project.title | escape }}" aria-label="Open photo from {{ project.title }}">
-                <img src="{{ hi_s | relative_url }}" alt="{{ project.title }}" loading="lazy">
-              </button>
-            {% endunless %}
-          {% endif %}
-          {% if has_photo == false %}
-            {% for img in project.gallery %}
-              {% assign g = img | strip %}
-              {% unless g == '' or g contains '#' %}
-                {% assign has_photo = true %}
-                <button type="button" class="portfolio-photo" data-full="{{ g | relative_url }}" data-alt="{{ project.title | escape }}" aria-label="Open photo from {{ project.title }}">
-                  <img src="{{ g | relative_url }}" alt="" loading="lazy">
-                </button>
-              {% endunless %}
-            {% endfor %}
-          {% endif %}
-          {% unless has_photo %}
+      {% if photo_list and photo_list.size > 0 %}
+        {% assign primary_thumb = photo_list.first.thumb | default: photo_list.first.full %}
+        {% assign primary_alt = photo_list.first.alt | default: project.title %}
+        {% assign gallery_count = photo_list.size %}
+        {% assign gallery_json = photo_list | jsonify %}
+      {% elsif project.gallery and project.gallery.size > 0 %}
+        {% assign primary_thumb = project.gallery.first %}
+        {% assign gallery_count = project.gallery.size %}
+        {% assign gallery_json = project.gallery | jsonify %}
+      {% elsif project.hero_image and project.hero_image != '' %}
+        {% assign primary_thumb = project.hero_image %}
+        {% assign gallery_count = 1 %}
+      {% endif %}
+
+      <article class="portfolio-card">
+        <div class="portfolio-photo-wrap">
+          {% if primary_thumb != '' %}
+          <img class="portfolio-photo-img" src="{{ primary_thumb | relative_url }}" alt="{{ primary_alt }}" loading="lazy">
+          {% else %}
           <div class="portfolio-photo-placeholder"><span>{{ project.title }}</span></div>
-          {% endunless %}
+          {% endif %}
+
+          {% if gallery_count > 1 %}
+          <button type="button" class="portfolio-gallery-btn" data-title="{{ project.title | escape }}" data-photos='{{ gallery_json }}' aria-label="View all {{ gallery_count }} photos of {{ project.title }}">
+            <span class="pgb-icon" aria-hidden="true">&#10530;</span>
+            <span class="pgb-count">{{ gallery_count }}</span>
+          </button>
+          {% endif %}
         </div>
 
-        {% if project.summary %}
-        <p class="portfolio-summary">{{ project.summary }}</p>
-        {% endif %}
+        <div class="portfolio-card-body">
+          <h3 class="portfolio-title">{{ project.title }}</h3>
 
-        {% assign web = project.links.website %}
-        {% assign gh = project.links.github %}
-        {% assign web_s = '' %}
-        {% assign gh_s = '' %}
-        {% if web %}{% assign web_s = web | strip %}{% endif %}
-        {% if gh %}{% assign gh_s = gh | strip %}{% endif %}
-        {% if web_s != '' or gh_s != '' %}
-        <p class="portfolio-actions">
-          {% unless web_s == '' or web_s contains '#' %}
-          <a class="portfolio-site" href="{{ web_s }}" target="_blank" rel="noopener">website →</a>
-          {% endunless %}
-          {% unless gh_s == '' or gh_s contains '#' %}
-          <a class="portfolio-site" href="{{ gh_s }}" target="_blank" rel="noopener">github →</a>
-          {% endunless %}
-        </p>
-        {% endif %}
+          {% if project.summary %}
+          <p class="portfolio-summary">{{ project.summary }}</p>
+          {% endif %}
+
+          {% assign web = project.links.website %}
+          {% assign gh = project.links.github %}
+          {% assign web_s = '' %}
+          {% assign gh_s = '' %}
+          {% if web %}{% assign web_s = web | strip %}{% endif %}
+          {% if gh %}{% assign gh_s = gh | strip %}{% endif %}
+          {% if web_s != '' or gh_s != '' %}
+          <p class="portfolio-actions">
+            {% unless web_s == '' or web_s contains '#' %}
+            <a class="portfolio-site" href="{{ web_s }}" target="_blank" rel="noopener">website &rarr;</a>
+            {% endunless %}
+            {% unless gh_s == '' or gh_s contains '#' %}
+            <a class="portfolio-site" href="{{ gh_s }}" target="_blank" rel="noopener">github &rarr;</a>
+            {% endunless %}
+          </p>
+          {% endif %}
+        </div>
       </article>
       {% endfor %}
     </div>

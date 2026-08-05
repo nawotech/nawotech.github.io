@@ -1,0 +1,11 @@
+{% comment %}
+  Usage inside a post or project body (Liquid is processed in Markdown content):
+  {% raw %}{% include repo-card.html repo="nawotech/fluidclock" url="https://github.com/nawotech/fluidclock" desc="firmware, KiCad project, and enclosure files" %}{% endraw %}
+{% endcomment %}
+<a class="repo-card" href="{{ include.url }}" target="_blank" rel="noopener">
+  <span class="repo-card-mark" aria-hidden="true"></span>
+  <span>
+    <span class="repo-card-name">{{ include.repo }}</span>
+    <span class="repo-card-desc">{{ include.desc }}</span>
+  </span>
+</a>

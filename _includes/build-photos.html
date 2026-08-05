@@ -1,0 +1,13 @@
+{% comment %}
+  Usage inside a post or project body (Liquid is processed in Markdown content):
+  {% raw %}{% include build-photos.html photos="/assets/img/posts/fluidclock/pcb.jpg, /assets/img/posts/fluidclock/enclosure.jpg" alts="Bare PCB, Assembled enclosure" %}{% endraw %}
+
+  `alts` is optional; photos are shown in a 2-up grid, in the order given.
+{% endcomment %}
+{% assign _photos = include.photos | split: "," %}
+{% assign _alts = include.alts | split: "," %}
+<div class="build-photos-grid">
+  {% for src in _photos %}
+  <img src="{{ src | strip | relative_url }}" alt="{{ _alts[forloop.index0] | strip }}" loading="lazy">
+  {% endfor %}
+</div>
